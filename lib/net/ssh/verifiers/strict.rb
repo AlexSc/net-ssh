@@ -15,15 +15,9 @@ module Net; module SSH; module Verifiers
       host = options[:host_key_alias] || arguments[:session].host_as_string
       matches = Net::SSH::KnownHosts.search_for(host, arguments[:session].options)
 
-      # we've never seen this host before, so just automatically add the key.
-      # not the most secure option (since the first hit might be the one that
-      # is hacked), but since almost nobody actually compares the key
-      # fingerprint, this is a reasonable compromise between usability and
-      # security.
+      # we've never seen this host before, so raise an exception
       if matches.empty?
-        ip = arguments[:session].peer[:ip]
-        Net::SSH::KnownHosts.add(host, arguments[:key], arguments[:session].options)
-        return true
+        process_cache_miss(host, arguments)
       end
 
       # If we found any matches, check to see that the key type and

@@ -1,3 +1,7 @@
+= DON'T USE THIS
+
+You can get the same functionality by using the mainline Net::SSH 2.6+ and specifying :paranoid => :secure in Net::SSH.start
+
 = Net::SSH
 
 * Docs: http://net-ssh.github.com/net-ssh
